@@ -10,6 +10,18 @@ services:
       - 3000:3000
     depends_on:
       - postgres
+    networks:
+      - app-net
+  redis:
+    image: redis:latest
+    restart: always
+    container_name: redis
+    ports:
+      - '6379:6379'
+    networks:
+      - app-net
+    volumes:
+      - redis:/data/cache
   # Postgresql
   postgres:
     image: postgres:latest
@@ -24,11 +36,30 @@ services:
     networks:
       - app-net
     volumes:
-      - pg_data:/data/db
+      - postgres:/data/db
       - ./init-database.sh:/docker-entrypoint-initdb.d/init-database.sh
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - app-net
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: redis-commander
+    restart: always
+    environment:
+      - REDIS_HOST=192.168.100.7:6379
+    ports:
+      - '8081:8081'
+    networks:
+      - app-net
 
+# networks
 networks:
   app-net:
     driver: bridge
 volumes:
-  pg_data:
+  postgres:
+  redis:

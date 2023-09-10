@@ -7,11 +7,20 @@
     {
       "type": "node-terminal",
       "request": "launch",
-      "name": "Launch Program",
+      "name": "Launch Auth",
       "skipFiles": [
         "<node_internals>/**"
       ],
       "command": "cd microservice_auth && yarn run dev"
+    },
+    {
+      "type": "node-terminal",
+      "request": "launch",
+      "name": "Launch Log",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "command": "cd microservice_log && yarn run dev"
     }
   ]
 }
